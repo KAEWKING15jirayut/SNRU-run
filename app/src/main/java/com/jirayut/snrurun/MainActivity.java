@@ -2,15 +2,19 @@ package com.jirayut.snrurun;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,12 +22,17 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
     //ประกาศตัวแปร
     private MyManage myManage;
-
+    private ImageView imageView;
+    private EditText userEditText, passwordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        imageView = (ImageView) findViewById(R.id.imageView6);
+        userEditText = (EditText) findViewById(R.id.editText4);
+        passwordEditText = (EditText) findViewById(R.id.editText5);
 
         myManage = new MyManage(MainActivity.this);
         //Test Add User
@@ -34,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
         //Sycchonize
         MySynchronize mySynchronize = new MySynchronize();
         mySynchronize.execute();
+        //แสดงรูปโลโก้ จาก เว็บ เมื่อเปลื่ยนจากเว็บ ในแอพก็จะเปลี่ยนด้วย
+        Picasso.with(MainActivity.this)
+                .load("http://swiftcodingthai.com/snru/image/logo_snru.png")
+                .resize(200, 250)
+                .into(imageView);
+
 
     }   //เมททอดหลักจบด้วย ; (เชมิโคร่อน)
 
