@@ -6,11 +6,17 @@ import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+    //ประกาศตัวแปร
+    private MyManage myManage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        myManage = new MyManage(MainActivity.this);
+
     }   //เมททอดหลักจบด้วย ; (เชมิโคร่อน)
 
     public void clickSignUpMain(View view) {

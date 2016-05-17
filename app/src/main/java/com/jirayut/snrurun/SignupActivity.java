@@ -1,11 +1,20 @@
 package com.jirayut.snrurun;
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
 
 public class SignupActivity extends AppCompatActivity {
     //การประกาศตัวแปร
@@ -80,10 +89,40 @@ public class SignupActivity extends AppCompatActivity {
         if (nameString.equals("")  || userString.equals("")  || passwordString.equals("")) {
 
             MyAlert myAlert=new MyAlert();
-            myAlert.myDialog(this,"มีช่องว่างอ่ะดูหน่อย","กรุณาเถอะกรอกทุกช่องด้วยจิ");
+            myAlert.myDialog(this,"มีช่องว่างอ่ะดูหน่อย","ตาบอดรึงัย ดูบ้างน่ะ");
 
         } else {
+            //ทำการส่งข้อมูลเข้าฐานข้อมูล
+            updateUserTABLE();
         }
     }
+
+    private void updateUserTABLE() {
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormEncodingBuilder()
+                .add("isAdd","true")
+                .add("Name", nameString)
+                .add("Password", passwordString)
+                .add("User", userString)
+                .add("Avata", avataString)
+                .build();
+        Request.Builder builder = new Request.Builder();
+        Request request = builder
+                .url("http://swiftcodingthai.com/snru/add_user_master.php")
+                .post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+            finish();
+            }
+        });
+    }//ขอบเขตของ updateUserTABLE
 
 }   //main class หรือ คลาสหลัก
