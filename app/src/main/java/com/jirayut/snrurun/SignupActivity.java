@@ -13,7 +13,7 @@ public class SignupActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
     private RadioButton choiceRadioButton,choiceRadioButton2,
             choiceRadioButton3,choiceRadioButton4,choiceRadioButton5;
-    private String nameString,userString,passwordString,avataString;
+    private String nameString,userString,passwordString,avataString = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,39 @@ public class SignupActivity extends AppCompatActivity {
 
         bindWidget();
 
+        //การสร้างตัวควบคุมการเลือกซ้อย Radio Button Cotroller
+        RadioButtonController();
+
     }   //เมททอดหลักจบด้วย ; (เชมิโคร่อน)
+
+    private void RadioButtonController() {
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int i) {
+
+                switch (i) {
+                    case R.id.radioButton:
+                        avataString = "0";
+                        break;
+                    case R.id.radioButton2:
+                        avataString = "1";
+                        break;
+                    case R.id.radioButton3:
+                        avataString = "2";
+                        break;
+                    case R.id.radioButton4:
+                        avataString = "3";
+                        break;
+                    case R.id.radioButton5:
+                        avataString = "4";
+                        break;
+                }
+
+            }
+        });
+
+    }
 
     private void bindWidget() {
         nameEditText= (EditText) findViewById(R.id.editText);
@@ -48,7 +80,7 @@ public class SignupActivity extends AppCompatActivity {
         if (nameString.equals("")  || userString.equals("")  || passwordString.equals("")) {
 
             MyAlert myAlert=new MyAlert();
-            myAlert.myDialog(this,"มีช่องว่างอ่ะ","กรุณากรอกทุกช่องหน่อย");
+            myAlert.myDialog(this,"มีช่องว่างอ่ะดูหน่อย","กรุณาเถอะกรอกทุกช่องด้วยจิ");
 
         } else {
         }
