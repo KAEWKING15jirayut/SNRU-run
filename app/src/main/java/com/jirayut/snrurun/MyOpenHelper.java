@@ -14,10 +14,10 @@ public class MyOpenHelper extends SQLiteOpenHelper{//ทำหน้าที่
     private  static  final  int database_version = 1;
 
     private  static  final  String create_user_table ="create table userTABLE(" +
-            "_id integer primary key" +
-            "Name text" +
-            "User text" +
-            "Password" +
+            "_id integer primary key," +
+            "Name text," +
+            "User text," +
+            "Password," +
             "Avata);";
 
     public MyOpenHelper(Context context) {
