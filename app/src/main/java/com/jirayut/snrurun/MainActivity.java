@@ -60,6 +60,16 @@ public class MainActivity extends AppCompatActivity {
 
     }   // Main Method
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        deleteAllSQLite();
+        MySynchronize mySynchronize = new MySynchronize();
+        mySynchronize.execute();
+
+    }
+
     public void clickSignIn(View view) {
 
         userString = userEditText.getText().toString().trim();
@@ -85,8 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
             SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.database_name,
                     MODE_PRIVATE, null);
-            Cursor cursor = sqLiteDatabase.rawQuery
-                    ("SELECT * FROM userTABLE WHERE User = " + "'" + userString + "'", null);
+            Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM userTABLE WHERE User = " + "'" + userString + "'", null);
             cursor.moveToFirst();
             userStrings = new String[cursor.getColumnCount()];
 
@@ -99,10 +108,11 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(this, "ยินดีต้อนรับ " + userStrings[1], Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent((MainActivity.this), MapsActivity.class);
-                intent.putExtra("User", userString);
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                intent.putExtra("User", userStrings);
                 startActivity(intent);
                 finish();
+
             } else {
 
                 MyAlert myAlert = new MyAlert();

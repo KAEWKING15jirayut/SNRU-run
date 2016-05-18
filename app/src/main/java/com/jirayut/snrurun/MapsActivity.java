@@ -1,34 +1,40 @@
 package com.jirayut.snrurun;
 
-import android.content.Context;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
-import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-import android.util.Log;
+        import android.content.Context;
+        import android.location.Criteria;
+        import android.location.Location;
+        import android.location.LocationManager;
+        import android.os.Bundle;
+        import android.os.Handler;
+        import android.support.v4.app.FragmentActivity;
+        import android.util.Log;
 
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+        import com.google.android.gms.maps.CameraUpdateFactory;
+        import com.google.android.gms.maps.GoogleMap;
+        import com.google.android.gms.maps.OnMapReadyCallback;
+        import com.google.android.gms.maps.SupportMapFragment;
+        import com.google.android.gms.maps.model.LatLng;
+        import com.squareup.okhttp.Call;
+        import com.squareup.okhttp.Callback;
+        import com.squareup.okhttp.FormEncodingBuilder;
+        import com.squareup.okhttp.OkHttpClient;
+        import com.squareup.okhttp.Request;
+        import com.squareup.okhttp.RequestBody;
+        import com.squareup.okhttp.Response;
 
-import java.security.Provider;
+        import java.io.IOException;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    //Explicit
     private GoogleMap mMap;
-    private double snruLatADouble=17.191340,
-            snruLngDouble =  104.091581;
+    private double snruLatADouble = 17.193621,
+            snruLngADouble =  104.090735;
     private LocationManager locationManager;
     private Criteria criteria;
     private double myLatADouble, myLngADouble;
-    private boolean gpsABoolean, networdABoolean;
-
-
+    private boolean gpsABoolean, networkABoolean;
+    private String[] userStrings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,43 +45,89 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //การเช็ตอัพLocation
-        locationManager = (LocationManager)
-                getSystemService(Context.LOCATION_SERVICE);
+        //Setup Location
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         criteria.setAltitudeRequired(false);
         criteria.setBearingRequired(false);
 
+        //Receive from Intent
+        userStrings = getIntent().getStringArrayExtra("User");
+
+    }   // Main Method
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // locationManager.removeUpdates((android.location.LocationListener) locationListener);
+        myLatADouble = snruLatADouble;
+        myLngADouble = snruLngADouble;
+
+        Location networkLocation = myFindLocation(LocationManager.NETWORK_PROVIDER, "ไม่ได้ต่อเน็ต");
+        if (networkLocation != null) {
+            myLatADouble = networkLocation.getLatitude();
+            myLngADouble = networkLocation.getLongitude();
+        }
+
+        Location gpsLocation = myFindLocation(LocationManager.GPS_PROVIDER, "ไม่มี GPS");
+        if (gpsLocation != null) {
+            myLatADouble = gpsLocation.getLatitude();
+            myLngADouble = gpsLocation.getLongitude();
+        }
 
 
-    }//main mettod
+    }
 
-    public Location myfineLocation(String strProvider, String strError) {
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        locationManager.removeUpdates(locationListener);
+
+    }
+
+    public Location myFindLocation(String strProvider, String strError) {
 
         Location location = null;
+
         if (locationManager.isProviderEnabled(strProvider)) {
 
-            locationManager.requestLocationUpdates
-                    (strProvider, 100, 10, (android.location.LocationListener) locationListener);
+            locationManager.requestLocationUpdates(strProvider, 1000, 10, locationListener);
+            location = locationManager.getLastKnownLocation(strProvider);
 
         } else {
-            Log.d("test", "my Error==>" + strError);
+            Log.d("test", "my Error ==> " + strError);
         }
 
         return location;
     }
 
-    //สร้างคลาสภายใน
-    public LocationListener locationListener=new LocationListener() {
+
+    //Create Inner Class
+    public android.location.LocationListener locationListener = new android.location.LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-
             myLatADouble = location.getLatitude();
             myLngADouble = location.getLongitude();
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
 
         }
-    };//Location
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+    };
 
 
 
@@ -83,10 +135,61 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng snruLatLng = new LatLng(snruLatADouble, snruLngDouble);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(snruLatLng,15));
-        mMap.addMarker(new MarkerOptions().position(snruLatLng).title("มหาลัยของผม"));
-    }//onmaprady
+        //Setup for สกล
+        LatLng snruLatLng = new LatLng(snruLatADouble, snruLngADouble);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(snruLatLng, 15));
 
-}//main class
+        //My Loop
+        myLoop();
+
+    }   // onMapReady
+
+    private void myLoop() {
+
+        Log.d("18May16", "myLat = " + myLatADouble);
+        Log.d("18May16", "myLng = " + myLngADouble);
+
+        updateLocation();
+
+
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                myLoop();
+            }
+        }, 3000);
+
+    }   // myLoop
+
+    private void updateLocation() {
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormEncodingBuilder()
+                .add("isAdd", "true")
+                .add("id", userStrings[0])
+                .add("Lat", Double.toString(myLatADouble))
+                .add("Lng", Double.toString(myLngADouble))
+                .build();
+        Request.Builder builder = new Request.Builder();
+        Request request = builder.url("http://swiftcodingthai.com/snru/edit_location.php").post(requestBody).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+
+            }
+        });
+
+
+
+    }   // updateLocation
+
+}   // Main Class
