@@ -20,10 +20,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
-    //ประกาศตัวแปร
     private MyManage myManage;
     private ImageView imageView;
-    private EditText userEditText, passwordEditText;
+    private EditText userEditTex, passwordEditTex;
+    private String userString,passwordString;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,32 +32,49 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         imageView = (ImageView) findViewById(R.id.imageView6);
-        userEditText = (EditText) findViewById(R.id.editText4);
-        passwordEditText = (EditText) findViewById(R.id.editText5);
+        userEditTex = (EditText) findViewById(R.id.editText4);
+        passwordEditTex = (EditText) findViewById(R.id.editText5);
 
         myManage = new MyManage(MainActivity.this);
-        //Test Add User
-        //myManage.addUser("Jirayut1", "Kaewking2", "1234", "3");
-        //การลบฐานข้อมูล
+        //myManage.addUser("pattanapong", "pattanapong", "123456", "3");
         deleteAllSQLite();
 
-        //Sycchonize
+        //Synchronize
         MySynchronize mySynchronize = new MySynchronize();
         mySynchronize.execute();
-        //แสดงรูปโลโก้ จาก เว็บ เมื่อเปลื่ยนจากเว็บ ในแอพก็จะเปลี่ยนด้วย
+
+        //Show Logo
         Picasso.with(MainActivity.this)
                 .load("http://swiftcodingthai.com/snru/image/logo_snru.png")
-                .resize(200, 250)
+                .resize(200,250)
                 .into(imageView);
 
 
-    }   //เมททอดหลักจบด้วย ; (เชมิโคร่อน)
 
-    //สร้าง คลาส ช้อน คลาส
+    } // Main Method
+
+    public void clickSignIn(View view) {
+
+        userString = userEditTex.getText().toString().trim();
+        passwordString = passwordEditTex.getText().toString().trim();
+
+        //Check Space
+        if (userString.equals("")||passwordString.equals("")) {
+
+            MyAlert myAlert = new MyAlert();
+            myAlert.myDialog(this,"มีช่องว่าง","โปรดกรอกให้ครบทุกช่อง");
+
+        } else {
+
+
+        }
+
+    }//clickSigIn
+
+
+
+    //สร้างคลาสซ้อนคลาส
     public class MySynchronize extends AsyncTask<Void, Void, String> {
-
-
-
 
         @Override
         protected String doInBackground(Void... params) {
@@ -67,37 +85,32 @@ public class MainActivity extends AppCompatActivity {
                 Request.Builder builder = new Request.Builder();
                 Request request = builder.url("http://swiftcodingthai.com/snru/get_user.php").build();
                 Response response = okHttpClient.newCall(request).execute();
+
                 return response.body().string();
 
-            } catch (Exception e) {//การทำงานคือรอการกลับมา จากการเสี่ยงเออเลอ
+
+            } catch (Exception e) {
                 return null;
             }
 
+            //return null;
         }
-
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            Log.d("snru", "JSON==>" + s);
 
-            Log.d("Snru", "JSON==>" + s);
             try {
-
                 JSONArray jsonArray = new JSONArray(s);
-                for (int i=0;i<jsonArray.length();i++){
+                for (int i=0;i < jsonArray.length();i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    String strName = jsonObject.getString
-                            (MyManage.column_name);
-                    String strUser = jsonObject.getString
-                            (MyManage.column_user);
-                    String strPassword = jsonObject.getString
-                            (MyManage.column_password);
-                    String strAvata = jsonObject.getString
-                            (MyManage.column_avata);
-
+                    String strName = jsonObject.getString(myManage.column_name);
+                    String strUser = jsonObject.getString(myManage.column_user);
+                    String strPassword = jsonObject.getString(myManage.column_password);
+                    String strAvata = jsonObject.getString(myManage.column_avata);
                     myManage.addUser(strName, strUser, strPassword, strAvata);
 
                 }
-
 
 
             } catch (Exception e) {
@@ -105,20 +118,19 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-    } // MySyc Class
 
+    } //MySyn Class
 
 
     private void deleteAllSQLite() {
 
         SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.database_name,
-                MODE_PRIVATE,null);
+                MODE_PRIVATE, null);
         sqLiteDatabase.delete(MyManage.user_table, null, null);
-
     }
 
-    public void clickSignUpMain(View view) {
-        startActivity(new Intent(MainActivity.this, SignupActivity.class));
+    public void clickSignUPMain(View view) {
+        startActivity(new Intent(MainActivity.this,SignupActivity.class));
     }
 
-}   //main class หรือ คลาสหลัก
+} //Main Class นี่คือ คลาสหลัก
