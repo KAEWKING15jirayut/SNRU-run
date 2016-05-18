@@ -1,8 +1,8 @@
 package com.jirayut.snrurun;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -20,10 +21,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
+
+    //Explicit
     private MyManage myManage;
     private ImageView imageView;
-    private EditText userEditTex, passwordEditTex;
-    private String userString,passwordString;
+    private EditText userEditText, passwordEditText;
+    private String userString, passwordString;
+    private String[] userStrings;
 
 
     @Override
@@ -31,12 +35,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Bind Widget
         imageView = (ImageView) findViewById(R.id.imageView6);
-        userEditTex = (EditText) findViewById(R.id.editText4);
-        passwordEditTex = (EditText) findViewById(R.id.editText5);
+        userEditText = (EditText) findViewById(R.id.editText4);
+        passwordEditText = (EditText) findViewById(R.id.editText5);
 
         myManage = new MyManage(MainActivity.this);
-        //myManage.addUser("pattanapong", "pattanapong", "123456", "3");
+
+        //Test Add user
+        //myManage.addUser("มาสเตอร์ อึ่ง", "master", "12345", "2");
+
+        //Delete All SQLite
         deleteAllSQLite();
 
         //Synchronize
@@ -49,35 +58,73 @@ public class MainActivity extends AppCompatActivity {
                 .resize(200,250)
                 .into(imageView);
 
-
-
-    } // Main Method
+    }   // Main Method
 
     public void clickSignIn(View view) {
 
-        userString = userEditTex.getText().toString().trim();
-        passwordString = passwordEditTex.getText().toString().trim();
+        userString = userEditText.getText().toString().trim();
+        passwordString = passwordEditText.getText().toString().trim();
 
         //Check Space
-        if (userString.equals("")||passwordString.equals("")) {
+        if (userString.equals("") || passwordString.equals("")) {
 
             MyAlert myAlert = new MyAlert();
-            myAlert.myDialog(this,"มีช่องว่าง","โปรดกรอกให้ครบทุกช่อง");
+            myAlert.myDialog(this, "มีช่องว่าง", "โปรดกรอกให้ครบทุกช่อง");
 
         } else {
 
+            checkUser();
 
         }
 
-    }//clickSigIn
+    }   // clickSignIn
+
+    private void checkUser() {
+
+        try {
+
+            SQLiteDatabase sqLiteDatabase = openOrCreateDatabase(MyOpenHelper.database_name,
+                    MODE_PRIVATE, null);
+            Cursor cursor = sqLiteDatabase.rawQuery
+                    ("SELECT * FROM userTABLE WHERE User = " + "'" + userString + "'", null);
+            cursor.moveToFirst();
+            userStrings = new String[cursor.getColumnCount()];
+
+            for (int i=0;i<cursor.getColumnCount();i++) {
+                userStrings[i] = cursor.getString(i);
+            }
+
+            //Check Password
+            if (passwordString.equals(userStrings[3])) {
+
+                Toast.makeText(this, "ยินดีต้อนรับ " + userStrings[1], Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent((MainActivity.this), MapsActivity.class);
+                intent.putExtra("User", userString);
+                startActivity(intent);
+                finish();
+            } else {
+
+                MyAlert myAlert = new MyAlert();
+                myAlert.myDialog(this, "Password False", "Please Try Again Password False");
+
+            }
 
 
 
-    //สร้างคลาสซ้อนคลาส
+        } catch (Exception e) {
+            MyAlert myAlert = new MyAlert();
+            myAlert.myDialog(this, "ไม่มี user นี่", "ไม่มี " + userString + " ในฐานข้อมูลของเรา");
+        }
+
+    }   // checkUser
+
+
+    //Create Inner Class
     public class MySynchronize extends AsyncTask<Void, Void, String> {
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected String doInBackground(Void... voids) {
 
             try {
 
@@ -88,38 +135,40 @@ public class MainActivity extends AppCompatActivity {
 
                 return response.body().string();
 
-
             } catch (Exception e) {
                 return null;
             }
-
             //return null;
-        }
+        }   // doInBack
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.d("snru", "JSON==>" + s);
+
+            Log.d("Snru", "JSON ==> " + s);
 
             try {
+
                 JSONArray jsonArray = new JSONArray(s);
-                for (int i=0;i < jsonArray.length();i++){
+                for (int i=0;i<jsonArray.length();i++) {
+
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    String strName = jsonObject.getString(myManage.column_name);
-                    String strUser = jsonObject.getString(myManage.column_user);
-                    String strPassword = jsonObject.getString(myManage.column_password);
-                    String strAvata = jsonObject.getString(myManage.column_avata);
+                    String strName = jsonObject.getString(MyManage.column_name);
+                    String strUser = jsonObject.getString(MyManage.column_user);
+                    String strPassword = jsonObject.getString(MyManage.column_password);
+                    String strAvata = jsonObject.getString(MyManage.column_avata);
+
                     myManage.addUser(strName, strUser, strPassword, strAvata);
 
-                }
-
+                }   // for
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-        }
+        }   // onPost
 
-    } //MySyn Class
+    }   // // MySyn Class
 
 
     private void deleteAllSQLite() {
@@ -129,8 +178,8 @@ public class MainActivity extends AppCompatActivity {
         sqLiteDatabase.delete(MyManage.user_table, null, null);
     }
 
-    public void clickSignUPMain(View view) {
-        startActivity(new Intent(MainActivity.this,SignupActivity.class));
+    public void clickSignUpMain(View view) {
+        startActivity(new Intent(MainActivity.this, SignupActivity.class));
     }
 
-} //Main Class นี่คือ คลาสหลัก
+}   // Main Class นี่คือ คลาสหลัก
