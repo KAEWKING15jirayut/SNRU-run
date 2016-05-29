@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.jirayut.snrurun.NamOunActivity"
+    android:background="@drawable/tadcengcum">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="วัดพระธาตุเชิงชุม  ตั้งอยู่ในวัดพระธาตุเชิงชุมวรวิหาร ปลายถนนเจริญเมือง ในเขตเทศบาลเมืองสกลนคร เป็นเจดีย์ก่ออิฐถือปูน ฐานรูปสี่เหลี่ยม สูงประมาณ 24 เมตร ยอดฉัตรทองคำเหนือองค์พระธาตุเชิงชุมทำด้วยทองคำบริสุทธิ์มีน้ำหนัก 247 บาท มีซุ้มประตู 4 ด้าน ข้างในทึบ สร้างครอบรอยพระพุทธบาทของพระพุทธเจ้าสี่พระองค์ ซึ่งหมายถึง พระกกุสันทะ พระโกนาคม พระกัสสะปะ และพระโคดม หรือพระศรีอารียเมตตรัย (คือ สมเด็จพระสัมมาสัมพุทธเจ้าที่ชาวพุทธศาสนิกชนเคารพสักการะบูชาอยู่ทุกวันนี้) สร้างขึ้นเมื่อใดไม่ปรากฏหลักฐานชัด แต่นับเป็นปูชนียสถานสำคัญคู่บ้านคู่เมืองสกลนครมาแต่โบราณ ภายในวิหารใกล้พระธาตุเชิงชุม เป็นที่ประดิษฐานหลวงพ่อองค์แสนอันศักดิ์สิทธิ์เป็นที่เคารพนับถือ และเป็นศูนย์รวมจิตใจของพุทธศาสนิกชนในจังหวัดสกลนคร ทุกวันพระในตอนค่ำจะมีประชาชนไปบูชากราบไหว้พระธาตุ และหลวงพ่อองค์แสนเป็นจำนวนมาก งานประจำปีของพระธาตุเชิงชุมจะเริ่มตั้งแต่วันขึ้น 9 ค่ำ ถึงวันขึ้น 15 ค่ำ เดือนยี่ของทุกปี (กำหนดตามจันทรคติ)"
+            android:id="@+id/textView9"
+            android:textSize="20sp"
+            android:background="#b3efb4" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView3" />
+    </LinearLayout>
+</ScrollView>

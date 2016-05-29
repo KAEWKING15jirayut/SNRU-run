@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.jirayut.snrurun.PuPexActivity"
+    android:background="@drawable/pupeng">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f4eaea">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ตั้งอยู่ที่ตำบลนาหัวบ่อ บนเส้นทางหลวงสายสกลนคร-อุดรธานี ทางหลวงหมายเลข 22 ห่างจากตัวเมืองสกลนครไปประมาณ 22 กิโลเมตร มีทางแยกซ้ายไปอีก 14 กิโลเมตร ผู้ที่จะไปนมัสการพระธาตุต้องเดินขึ้นบันไดประมาณ 491 ขั้น จะถึงองค์พระธาตุซึ่งสร้างอยู่บนยอดเขาภูพาน องค์พระธาตุสร้างด้วยหินทราย อยู่บนฐานศิลาแลง มีผังเป็นรูปสี่เหลี่ยมจัตุรัสย่อมุม ด้านหน้าเชื่อมต่อกับมณฑป รูปสี่เหลี่ยมผืนผ้า ชั้นที่ 1 สูงประมาณ 1.58 เมตร ชั้นที่ 2 สูงประมาณ 0.70 เมตร ตัวปราสาทสูง 7.67 เมตร ซึ่งยังสร้างไม่แล้วเสร็จ ไม่มีหลังคา และยอดปราสาท เพียงแต่ทำขื่อตั้งไว้เท่านั้น พระธาตุภูเพ็กสร้างขึ้นในราวพุทธศตวรรษที่ 16 เพื่อเป็นศาสนสถานในศาสนาฮินดู ภายหลังดัดแปลงเป็นพุทธศาสนสถานและมีการยกเรื่องประวัติศาสตร์ การก่อสร้างไว้ในตำนานพระอุรังคธาตุ หรือตำนานพระธาตุพนม ซึ่งกล่าวไว้ว่า พระธาตุภูเพ็กสร้างโดยกลุ่มผู้ชายเพื่อแข่งขันกับกลุ่มผู้หญิงซึ่งสร้างพระธาตุนารายณ์เจงเวงเพื่อรอบรรจุพระอุรังคธาตุของพระพุทธเจ้า แต่กลุ่มผู้ชายได้ยุติการสร้างเมื่อเห็นดาวเพ็กบนท้องฟ้า ซึ่งเป็นกลลวงของกลุ่มผู้หญิงผู้สร้างพระธาตุนารายณ์เจงเวง ปราสาทหลังนี้จึงได้ชื่อว่า ปราสาทพระธาตุภูเพ็ก ตามชื่อดาว “เพ็ก”  การเดินทาง ตามทางหลวงหมายเลข 22 (สกลนคร-อุดรธานี) ห่างจากตัวเมืองสกลนครประมาณ 22 กิโลเมตร มีทางแยกซ้ายไปอีก 14 กิโลเมตร"
+            android:id="@+id/textView13"
+            android:textSize="20sp" />
+    </LinearLayout>
+</ScrollView>

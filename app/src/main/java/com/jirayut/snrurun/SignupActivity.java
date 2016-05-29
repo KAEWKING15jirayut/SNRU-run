@@ -18,11 +18,10 @@ import java.io.IOException;
 
 public class SignupActivity extends AppCompatActivity {
     //การประกาศตัวแปร
-    private EditText nameEditText, userEditText,passwordEditText;
-    private RadioGroup radioGroup;
-    private RadioButton choiceRadioButton,choiceRadioButton2,
-            choiceRadioButton3,choiceRadioButton4,choiceRadioButton5;
-    private String nameString,userString,passwordString,avataString = "0";
+    private EditText  nameEditText,surnameEditText,userEditText,
+            passwordEditText,addessEditText,phoneEditText;
+    private String nameString,surnameString,userString,
+            passwordString,addessString,phoneString = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,59 +33,30 @@ public class SignupActivity extends AppCompatActivity {
         bindWidget();
 
         //การสร้างตัวควบคุมการเลือกซ้อย Radio Button Cotroller
-        RadioButtonController();
 
     }   //เมททอดหลักจบด้วย ; (เชมิโคร่อน)
 
-    private void RadioButtonController() {
-
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int i) {
-
-                switch (i) {
-                    case R.id.radioButton:
-                        avataString = "0";
-                        break;
-                    case R.id.radioButton2:
-                        avataString = "1";
-                        break;
-                    case R.id.radioButton3:
-                        avataString = "2";
-                        break;
-                    case R.id.radioButton4:
-                        avataString = "3";
-                        break;
-                    case R.id.radioButton5:
-                        avataString = "4";
-                        break;
-                }
-
-            }
-        });
-
-    }
-
     private void bindWidget() {
         nameEditText= (EditText) findViewById(R.id.editText);
-        userEditText= (EditText) findViewById(R.id.editText2);
-        passwordEditText= (EditText) findViewById(R.id.editText3);
-        radioGroup= (RadioGroup) findViewById(R.id.ragAvata);
-        choiceRadioButton= (RadioButton) findViewById(R.id.radioButton);
-        choiceRadioButton2= (RadioButton) findViewById(R.id.radioButton2);
-        choiceRadioButton3= (RadioButton) findViewById(R.id.radioButton3);
-        choiceRadioButton4= (RadioButton) findViewById(R.id.radioButton4);
-        choiceRadioButton5= (RadioButton) findViewById(R.id.radioButton5);
+        surnameEditText = (EditText) findViewById(R.id.editText2);
+        userEditText= (EditText) findViewById(R.id.editText3);
+        passwordEditText= (EditText) findViewById(R.id.editText4);
+        addessEditText = (EditText) findViewById(R.id.editText5);
+        phoneEditText = (EditText) findViewById(R.id.editText6);
+
 
     }
 
     public void clickSignUpSign(View view) {
         //Get Value EditText  รับค่าจาก signup เมื่อคลิก
         nameString=nameEditText.getText().toString().trim();
+        surnameString=surnameEditText.getText().toString().trim();
         userString=userEditText.getText().toString().trim();
         passwordString=passwordEditText.getText().toString().trim();
+        addessString=addessEditText.getText().toString().trim();
+        phoneString=phoneEditText.getText().toString().trim();
         //Check Space
-        if (nameString.equals("")  || userString.equals("")  || passwordString.equals("")) {
+        if (nameString.equals("")  || surnameString.equals("")  || userString.equals("")  || passwordString.equals("")  || addessString.equals("")  || phoneString.equals("")) {
 
             MyAlert myAlert=new MyAlert();
             myAlert.myDialog(this,"มีช่องว่างอ่ะดูหน่อย","ตาบอดรึงัย ดูบ้างน่ะ");
@@ -103,13 +73,15 @@ public class SignupActivity extends AppCompatActivity {
         RequestBody requestBody = new FormEncodingBuilder()
                 .add("isAdd","true")
                 .add("Name", nameString)
-                .add("Password", passwordString)
+                .add("Surname", surnameString)
                 .add("User", userString)
-                .add("Avata", avataString)
+                .add("Password", passwordString)
+                .add("Addess", addessString)
+                .add("Phone", phoneString)
                 .build();
         Request.Builder builder = new Request.Builder();
         Request request = builder
-                .url("http://swiftcodingthai.com/snru/add_user_master.php")
+                .url("http://swiftcodingthai.com/snru/add_user_pn.php")
                 .post(requestBody).build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {

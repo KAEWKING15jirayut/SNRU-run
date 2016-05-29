@@ -30,7 +30,7 @@
             android:text="SIGN IN"
             android:id="@+id/button2"
             android:layout_weight="1"
-            android:onClick="clickSignIn" />
+            android:onClick="clickSignInMain" />
     </LinearLayout>
 
     <LinearLayout
@@ -39,13 +39,14 @@
         android:layout_height="wrap_content"
         android:padding="30dp"
         android:gravity="center_horizontal"
-        android:background="#64d9caca"
+        android:background="#64c1eceb"
         android:layout_centerHorizontal="true">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView6" />
+            android:layout_width="81dp"
+            android:layout_height="133dp"
+            android:id="@+id/imageView6"
+            android:background="@drawable/nobita48" />
 
         <EditText
             android:layout_width="200dp"

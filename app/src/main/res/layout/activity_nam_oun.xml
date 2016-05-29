@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.jirayut.snrurun.NamOunActivity"
+    android:background="@drawable/namoun">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="อยู่ในความดูแลของกรมชลประทานใช้เส้นทางสายสกลนคร-อุดรธานี เส้นทางหลวงหมายเลข 22 ก่อนถึงอำเภอพังโคน ประมาณ 5 กิโลเมตร มีทางแยกซ้ายเข้าถนนสายพังโคน-วาริชภูมิ (ทางหลวงหมายเลข 227) เข้าไปประมาณ 5 กิโลเมตร รวมระยะทางจากจังหวัดประมาณ 57 กิโลเมตรเขื่อนแห่งนี้เป็นเขื่อนดิน สร้างกั้นลำน้ำอูนซึ่งเป็นสายหนึ่งของแม่น้ำสงครามซึ่งมีต้นน้ำมาจากเทือกเขาภูพาน เพื่อเก็บกักน้ำไว้ใช้ในการชลประทานบรรยากาศเหมาะสำหรับการพักผ่อนหย่อนใจ สภาพโดยทั่วไปเป็นอ่างเก็บน้ำกว้างใหญ่รายล้อมด้วยเทือกเขาภูพาน และป่าไม้ที่สวยงามบริเวณใกล้กับสันเขื่อนเป็นน้ำตกขนาดเล็กที่เกิดจากการระบายน้ำออกจากเขื่อน"
+            android:id="@+id/textView9"
+            android:textSize="20sp"
+            android:background="#b3efb4" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView3" />
+    </LinearLayout>
+</ScrollView>
